@@ -52,7 +52,7 @@ def file_reader(folder_path=os.getenv('FOLDER_PATH')):
                     content = page.extract_text()
                     page_list.append(content)
                 content_list.append(page_list)
-    return list_to_string(content_list)
+    return [item for sublist in content_list for item in sublist]
 
 
 def messages(system_message, user_message, assistant_message):
