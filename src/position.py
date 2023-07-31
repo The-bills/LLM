@@ -1,5 +1,6 @@
 from dics.constants import position_perfect_description_prompt, rate_cv_prompt
 from utilis import get_completion_from_prompt
+from cv import Cv
 
 class Position:
     name: str
@@ -24,6 +25,6 @@ class Position:
         return self
         
     
-    def rate_cv(self, cv: str):
-        prompt = rate_cv_prompt(self, cv)
+    def rate_cv(self, cv: Cv):
+        prompt = rate_cv_prompt(self, cv.content)
         return get_completion_from_prompt(prompt)
