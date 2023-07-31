@@ -1,6 +1,5 @@
-from dics.constants import position_perfect_description_prompt, rate_cv_prompt
-from utilis import get_completion_from_prompt
 from cv import Cv
+from llm.llm import Llm
 
 class Position:
     name: str
@@ -20,11 +19,9 @@ class Position:
         return self
     
     def gen_characteristics(self):
-        prompt = position_perfect_description_prompt(self)
-        self.characteristics = get_completion_from_prompt(prompt)
+        self.characteristics = Llm.describe_position(self.name, self.description)
         return self
         
     
     def rate_cv(self, cv: Cv):
-        prompt = rate_cv_prompt(self, cv.content)
-        return get_completion_from_prompt(prompt)
+        return Llm.rate_cv(self.name, self.description, self.characteristics, cv.content)

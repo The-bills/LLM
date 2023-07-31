@@ -1,7 +1,6 @@
 import os
 import PyPDF2
-from utilis import get_completion_from_prompt
-from dics.constants import extract_name_prompt
+from llm.llm import Llm
 
 class Cv:
     name: str
@@ -9,8 +8,7 @@ class Cv:
     scores: list((str, int))
 
     def __init__(self, content: str):
-        prompt = extract_name_prompt(content)
-        self.name = get_completion_from_prompt(prompt)
+        self.name = Llm.find_name(content)
         self.content = content
 
     def add_score(self, category: str, value: int):
