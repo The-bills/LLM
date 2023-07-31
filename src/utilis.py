@@ -1,25 +1,29 @@
 import os
 import openai
 from dotenv import load_dotenv, find_dotenv
-from dics.constants import *
 import PyPDF2
+from langchain.llms import OpenAI
+
 _ = load_dotenv(find_dotenv()) # read local .env file
 
 openai.api_key  = os.getenv('OPENAI_API_KEY')
 
-
+# convert this function to use LangChain
 def get_completion_from_prompt(prompt, 
                                model="gpt-3.5-turbo",
                                temperature=0.0,
                                max_tokens=1500):
-    messages = [{"role": "user", "content": prompt}]
-    response = openai.ChatCompletion.create(
-        model=model,
-        messages=messages,
-        temperature=temperature,
-        max_tokens=max_tokens 
-    )
-    return response.choices[0].message["content"]
+    
+    #messages = [{"role": "user", "content": prompt}]
+    #response = openai.ChatCompletion.create(
+    #    model=model,
+    #    messages=messages,
+    #    temperature=temperature,
+    #    max_tokens=max_tokens 
+    #)
+    #return response.choices[0].message["content"]
+    llm = OpenAI(model_name=model, temperature=temperature, max_tokens=max_tokens)
+    return llm.predict(prompt)
 
 
 def get_completion_from_messages(messages, 
