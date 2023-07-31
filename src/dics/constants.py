@@ -33,7 +33,7 @@ Kategorie:
 ${position.characteristics}
 ```
 Jako wynik podaj TYLKO listę w języku python o długości równej długości listy kryteriów,
-gdzie każdy element jest liczbą z przedziału od 0 do 100 oznaczającą wynik kandydata w danej kategorii.
+gdzie każdy element jest liczbą z przedziału od 0 do 100 oznaczającą wynik procentowy kandydata w danej kategorii.
 
 CV Kandydata:
 ```
@@ -49,6 +49,16 @@ Poszukuje pracownika na stanowisko: {position.name} \n
 Opis stanowiska: {position.description} \n
 Jakie jest {n} najważniejszych cech i umiejętności jakie powinna spełniać osoba ubiegająca się \n
 o stanowisko? Wypisz TYLKO cechy bez opisów, w formie listy języka python.
+"""
+
+def extract_name_prompt(text: str):
+    return f"""
+Poniej przedstawiona zostanie treść CV. Znajdź w nim i zwróć tylko i wyłącznie imię i nazwisko osoby aplikującej.
+Treść CV: \n
+``` \n
+{text} \n
+``` \n
+Imię i nazwisko:
 """
 
 
