@@ -17,7 +17,6 @@ class Llm:
     def rate_cv(name: str, description: str, characteristics: str, cv: str):
         parsed_characteristics = "\n".join(characteristics)
         prompt = prompts.rate_cv.format(name=name, description=description, characteristics=parsed_characteristics, cv=cv)
-        print(prompt)
         output = Llm.llm(prompt)
         return CommaSeparatedListOutputParser().parse(output)
         
