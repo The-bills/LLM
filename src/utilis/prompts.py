@@ -1,7 +1,7 @@
 from langchain.prompts import PromptTemplate
 from langchain.output_parsers import CommaSeparatedListOutputParser
 
-find_name = PromptTemplate(
+find_name_from_cv = PromptTemplate(
     template="""
 The content of the resume will be presented to you.
 Find in it and return only the name of the applicant.
@@ -9,7 +9,7 @@ The resume:
 ```
 {resume}
 ```
-The name of the applicant:""",
+The name of the applicant:  """,
 input_variables=["resume"],
 )
 
@@ -19,9 +19,10 @@ Poszukuje pracownika na stanowisko: {name} \n
 Opis stanowiska: {description} \n
 Jakie jest {n} najważniejszych cech i umiejętności jakie powinna spełniać osoba ubiegająca się \n
 o stanowisko? Wypisz TYLKO cechy bez opisów, w formie listy języka python. Odpowedź podaj w języku angielskim.
-{format_instructions}""",
+{format_instructions}
+""",
     input_variables=["name", "description", "n"],
-    partial_variables={"format_instructions": CommaSeparatedListOutputParser().get_format_instructions()},
+    partial_variables={"format_instructions": CommaSeparatedListOutputParser().get_format_instructions()}
 )
 
 rate_cv = PromptTemplate(

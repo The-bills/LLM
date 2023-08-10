@@ -1,0 +1,4 @@
+langchain==0.0.240
+pytest==7.4.0
+pyrhon==3.10.1
+scipy==1.11.1

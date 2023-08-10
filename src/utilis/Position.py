@@ -1,6 +1,6 @@
-from cv import Cv
-from llm.llm import Llm
-from db import Db
+import utilis.Cv as Cv
+from utilis.LangModel import LangModel
+# from db import Db
 
 class Position:
     name: str
@@ -28,15 +28,16 @@ class Position:
         return self
     
     def gen_qualifications (self):
-        self.qualifications = Llm.describe_position(self.name, self.description)
+        self.qualifications = LangModel.describe_position(self.name, self.description)
         return self
         
     
     def rate_cv(self, cv: Cv):
-        return Llm.rate_cv(self.name, self.description, self.qualifications , cv.content)
+        return LangModel.rate_cv(self.name, self.description, self.qualifications , cv.content)
 
-    def get(id):
-        cur = Db.conn.cursor()
-        cur.execute("SELECT * FROM positions WHERE id = %s;", (id,))
-        data = cur.fetchone()
-        return Position().hydrate(*data)
+    # def get(id):
+    #     cur = Db.conn.cursor()
+    #     cur.execute("SELECT * FROM positions WHERE id = %s;", (id,))
+    #     data = cur.fetchone()
+    #     return Position().hydrate(*data)
+    

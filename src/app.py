@@ -1,10 +1,8 @@
 from dotenv import load_dotenv, find_dotenv
-_ = load_dotenv(find_dotenv())
-
-from position import Position
+from utilis.Position import Position
 import dics.default_position as dp
-from cv import Cv
-
+from utilis.Cv import Cv
+_ = load_dotenv(find_dotenv())
 
 #conn.commit()
 #conn.close()
