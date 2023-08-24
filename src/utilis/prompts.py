@@ -30,19 +30,23 @@ rate_cv = PromptTemplate(
 Zostanie ci przedstawiona treść CV osoby ubiegającej się o stanowisko.
 Nazwa stanowiska: "{name}" \n
 Opis stanowiska: "{description}" \n
-Oceń cv kandydata wynikiem procentowym w każdej podanej kategorii \n
+Oceń cv kandydata w każdej podanej kategorii \n
 Kategorie:
 ```
 ${characteristics}
 ```
-Jako wynik podaj TYLKO listę w języku python o długości równej długości listy kryteriów,
-gdzie każdy element jest liczbą z przedziału od 0 do 100 oznaczającą wynik procentowy kandydata w danej kategorii.
-
+Jako wynik podaj listę ocen w skali od 0 do 100 w tej samej kolejności co kategorie.
+Ocenę poszcególnej kategorii kandydata pobierz z tabelki na podstawie jego doświadczenia.
+Tabelka:
+{table_cryteria}
+Dodatkowo, jeśli osoba posiada dodatkowe zdolności lub projektu, możesz do oceny dodać
+wartość 10.
 CV Kandydata:
 ```
 {cv}
 ```
 {format_instructions}""",
-    input_variables=["name", "description", "characteristics", "cv"],
+    input_variables=["name", "description", "characteristics", "cv","table_cryteria"],
     partial_variables={"format_instructions": CommaSeparatedListOutputParser().get_format_instructions()},
 )
+

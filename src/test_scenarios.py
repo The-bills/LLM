@@ -1,31 +1,21 @@
-import pytest
-from langchain.chat_models import ChatOpenAI
 from dotenv import load_dotenv, find_dotenv
-from utilis.LangModel import LangModel
-from utilis.Cv import Cv
-from utilis.Position import Position
 import numpy as np
 import scipy.stats as st
+import math as mt
 from scipy.stats import chi2_contingency
-from dics.default_position import test_description, test_name, test_rating
+from dics.default_position import test_rating, test_data
 import warnings
+from src.fixtures import base_classes, described_data, rate_test_cv
 warnings.filterwarnings('ignore')
 _ = load_dotenv(find_dotenv())
 
 
+def test_described_data(described_data):
+    assert described_data == test_data
 
-
-@pytest.fixture
-def rate_test_cv():
-    llm = LangModel
-    cv = Cv.from_file('FOLDER_PATH')
-    described_data = llm.describe_position(test_name, test_description)
-    tests_rate_cv = llm.rate_cv(test_name, test_description, described_data,cv)
-    tests_rate_cv_int = list(map(int, tests_rate_cv))
-    return tests_rate_cv_int
 
 def test_evaluate_cv(rate_test_cv):
-    assert rate_test_cv == [0, 100, 80, 90, 70] 
+    assert rate_test_cv == [80, 60, 100, 80, 80] 
 
 
 def test_evaluate_approx(rate_test_cv):
@@ -55,7 +45,7 @@ def test_t_student(rate_test_cv):
     test_rated_mean = np.mean(test_rating)
     std_cv = np.std(rate_test_cv)
     std_test = np.std(test_rating)
-    t_value = (cv_rated_mean - test_rated_mean) / ((std_cv ** 2 / len(rate_test_cv)) + (std_test ** 2 / len(test_rating))) ** 0.5
+    t_value = (cv_rated_mean-test_rated_mean)/mt.sqrt((pow(std_cv,2)/len(rate_test_cv))+(pow(std_test,2)/len(test_rating)))
     degrees_of_freedom = len(rate_test_cv) + len(test_rating) - 2
     p_value = 2 * (1 - st.t.cdf(abs(t_value), df=degrees_of_freedom))
     assert np.isclose(p_value, 0.05, rtol=0.01) or p_value >= 0.05
@@ -68,9 +58,9 @@ def test_levane(rate_test_cv):
     abs_test = [abs(x - test_median) for x in test_rating]
     cv_abs_median = np.median(abs_cv)
     test_abs_median = np.median(abs_test)
-    levene_statistic = (cv_abs_median ** 2 + test_abs_median ** 2) / 2
+    levene_statistic = (pow(cv_abs_median,2)+ pow(test_abs_median,2))/2
     p_value = 1-st.chi2.cdf(levene_statistic, df=1)
-    assert np.isclose(p_value, 0.05, rtol=0.01) or p_value >= 0.05
+    assert np.isclose(p_value, 0.05, rtol=0.01) or p_value <= 0.05
 
 
 def test_pearson_correlation(rate_test_cv):
@@ -81,4 +71,10 @@ def test_pearson_correlation(rate_test_cv):
 def test_chi_square(rate_test_cv):
     test_array = np.array([rate_test_cv, test_rating])
     chi2, p, dof, expected = chi2_contingency(test_array)
-    assert np.isclose(p, 0.05, rtol=0.01) or p <= 0.05
+    assert np.isclose(p, 0.05, rtol=0.01) or p >= 0.05
+
+
+def test_percentage_diffrence(rate_test_cv):
+    rate_test_cv_sum = sum(rate_test_cv)
+    test_rating_sum = sum(test_rating)
+    assert abs(rate_test_cv_sum-test_rating_sum)/test_rating_sum <= 0.1

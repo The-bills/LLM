@@ -22,7 +22,6 @@ class Cv:
             pdf_reader = PyPDF2.PdfReader(file)
             text = [page.extract_text() for page in pdf_reader.pages]
             return Cv(' '.join(text))    
-            #TODO tu jest problem, niepełne CV mi się wczytuje
     
     def from_directory(folder_path=os.getenv('FOLDER_PATH')):
         [Cv.from_file(file, folder_path) for file in os.listdir(folder_path)]
