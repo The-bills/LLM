@@ -6,3 +6,8 @@ class Db:
                         host= 'localhost',
                         password = "postgres",
                         port = 5432)
+    @staticmethod
+    def query(sql: str, arguments: tuple | None = None):
+        cur = Db.conn.cursor()
+        cur.execute(sql, arguments) 
+        return cur
