@@ -26,15 +26,15 @@ class Cv:
 
     @staticmethod
     def get_one(id):
-        data = Db.query("SELECT * FROM cv WHERE id = %s;", (id,)).fetchone()
+        data = Db.query(f"SELECT * FROM cv WHERE id = '{id}'").fetchone()
         return data and Cv().hydrate(*data) or None
 
     @staticmethod
     def insert():
-        data = Db.query("SELECT * FROM cv ;").fetchone()
+        data = Db.query("SELECT * FROM cv;").fetchone()
         return data and Cv().hydrate(*data) or None
 
     @staticmethod
     def delete(id):
-        data = Db.query("DELETE FROM cv WHERE id = %s;", (id,)).fetchone()
+        data = Db.query(f"DELETE FROM cv WHERE id = '{id}';").fetchone()
         return data and Cv().hydrate(*data) or None
