@@ -1,4 +1,7 @@
 langchain==0.0.240
 pytest==7.4.0
-pyrhon==3.10.1
+python>=3.10.1
 scipy==1.11.1
+llama_index==0.8.21
+jsonpickle==3.0.2
+langchain==0.0.284

@@ -12,7 +12,7 @@ def all_cvs():
 
 @api.route("/<id>")
 def get_cv(id):
-    return jsonpickle.encode(Cv.iget_one(id))
+    return jsonpickle.encode(Cv.get_one(id))
 
 @api.route("/", methods=['POST'])
 def upload_cv():
