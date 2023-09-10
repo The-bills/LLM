@@ -2,3 +2,5 @@
 __pycache__/
 .DS_store
 cv/
+chromaDB/*
+FOLDER_PATH_CHROMA_DB/

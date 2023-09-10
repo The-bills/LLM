@@ -11,7 +11,6 @@ class Cv:
         self.name = name
         self.filelink = filelink
         self.content = content
-        return self
     
 
     @staticmethod

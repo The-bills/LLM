@@ -9,15 +9,12 @@ class Position:
         self.id = id
         self.name = name
         self.description = description
-        return self
-
 
     @staticmethod
     def get_all():
         data = Db.query("SELECT * FROM positions;").fetchall()
         vec = [Position(*element) for element in data]
         return vec
-
 
     @staticmethod
     def get_one(id):
