@@ -1,17 +1,7 @@
-from db import Db
+from repo.db import Db
+from models.position import Position
 
-class Position:
-    id: str
-    name: str 
-    description: str
-
-    def ___init__(self, id, name, description):
-        self.id = id
-        self.name = name
-        self.description = description
-        return self
-
-
+class PositionRepo:
     @staticmethod
     def get_all():
         data = Db.query("SELECT * FROM positions;").fetchall()

@@ -11,3 +11,4 @@ class Db:
         cur = Db.conn.cursor()
         cur.execute(sql, arguments) 
         return cur
+    
