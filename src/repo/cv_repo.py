@@ -1,12 +1,12 @@
 from repo.db import Db
 from models.cv import Cv
+from uuid import uuid4
 
 class CvRepo:
     @staticmethod
     def get_all():
         data = Db.query("SELECT * FROM cv;").fetchall()
-        vec = [Cv(*element) for element in data]
-        return vec
+        return [Cv(*element) for element in data]
 
 
     @staticmethod
@@ -15,9 +15,13 @@ class CvRepo:
         return data and Cv(*data) or None
 
     @staticmethod
-    def insert():
-        data = Db.query("SELECT * FROM cv;").fetchone()
-        return data and Cv(*data) or None
+    def insert(name, filelink, category, doc_id = None, id = None):
+        query = """
+            INSERT INTO cv (id, name, filelink, category, doc_id)
+            VALUES (%s, %s, %s, %s, %s) RETURNING id;
+        """
+        id = Db.query(query, (id or uuid4(), name, filelink, category, doc_id)).fetchone()[0]
+        return CvRepo.get_one(id)
 
     @staticmethod
     def delete(id):

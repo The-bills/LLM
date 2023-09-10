@@ -1,8 +1,8 @@
 import jsonpickle
 from repo import Repo
-import services.llm as llm
-
 from flask import Blueprint, request
+from services.file_storage import FileStorage
+from utils.files import is_pdf
 
 api = Blueprint('cv_api', __name__)
 
@@ -17,18 +17,15 @@ def get_cv(id):
 @api.route("/", methods=['POST'])
 def upload_cv():
     file = request.files['cv']
-    category = request.form['category']
-    file.save(file.filename)
-    cv = Repo.Cv.insert("Unknown", category)
-    # llm.process_cv(cv)
+    if not is_pdf(file.filename):
+        return jsonpickle.encode({"error": "Invalid file type"})
+
+    filelink = FileStorage.save(file)
+    # TODO add to chroma, get name and doc_id
+    (name, doc_id) = (None, None)
+    cv = Repo.Cv.insert(name, filelink, request.form['category'], doc_id)
     return jsonpickle.encode(cv)
 
 @api.route("/<id>", methods=['DELETE'])
 def delete_cv(id):
     return jsonpickle.encode(Repo.Cv.delete(id))
-
-@api.route("/<id>/process", methods=['POST'])
-def process_cv(id):
-    cv = Repo.Cv.get_one(id)
-    llm.process_cv(cv)
-    return jsonpickle.encode({"success": True})

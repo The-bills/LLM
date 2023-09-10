@@ -2,5 +2,6 @@
 __pycache__/
 .DS_store
 cv/
+uploads/*
 
 storage

@@ -5,8 +5,7 @@ class PositionRepo:
     @staticmethod
     def get_all():
         data = Db.query("SELECT * FROM positions;").fetchall()
-        vec = [Position(*element) for element in data]
-        return vec
+        return [Position(*element) for element in data]
 
 
     @staticmethod
