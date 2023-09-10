@@ -4,3 +4,5 @@ __pycache__/
 cv/
 chromaDB/*
 FOLDER_PATH_CHROMA_DB/
+uploads/*
+storage

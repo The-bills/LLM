@@ -1,5 +1,5 @@
 import services.llm as llm
-from position import Position
+from models.position import Position
 
 def rate_position(position_id: str):
     index = llm.load_index()
