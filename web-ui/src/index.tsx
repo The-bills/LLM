@@ -10,6 +10,7 @@ import { Home } from "./views/Home/Home";
 import { CvList } from "./views/CvList/CvList";
 import { Cv } from "./views/Cv/Cv";
 import { QueryClient, QueryClientProvider } from "react-query";
+import { PositionList } from "./views/PositionList/PositionList";
 
 const router = createBrowserRouter([
   {
@@ -23,6 +24,10 @@ const router = createBrowserRouter([
   {
     path: "/cv/:cvId",
     element: <Cv />,
+  },
+  {
+    path: "/position",
+    element: <PositionList />,
   },
 ]);
 
