@@ -9,7 +9,7 @@ export const PositionList = () => {
             <h1 className='text-3xl font-bold'>Positions</h1>
             <div className='mt-8  pl-5 pr-5 width-max'>
                 {data?.map(position => (
-                    <ListRow key={position.id} name={position.name} />
+                    <ListRow key={position.id.hex} name={position.name} id={position.id.hex} />
                 ))}
             </div>
         </PageWithNavbar>

@@ -9,7 +9,7 @@ export const CvList = () => {
             <h1 className='text-3xl font-bold'>All CVs</h1>
             <div className='mt-8  pl-5 pr-5 width-max'>
                 {data?.map(cv => (
-                    <ListRow key={cv.id} name={cv.name} category={cv.category} />
+                    <ListRow key={cv.id.hex} name={cv.name} category={cv.category} />
                 ))}
             </div>
         </PageWithNavbar>
