@@ -3,6 +3,7 @@ from repo import Repo
 from flask import Blueprint, request
 from services.file_storage import FileStorage
 from utils.files import is_pdf
+from services.ChromaStore import ChromaStore
 
 api = Blueprint('cv_api', __name__)
 
@@ -22,6 +23,9 @@ def upload_cv():
 
     filelink = FileStorage.save(file)
     # TODO add to chroma, get name and doc_id
+    # ChromaStore(collection_name='cvtest')
+    # ChromaStore.insert_doc(filelink, ['Krasucki'])
+    # print(res)
     (name, doc_id) = (None, None)
     cv = Repo.Cv.insert(name, filelink, request.form['category'], doc_id)
     return jsonpickle.encode(cv)

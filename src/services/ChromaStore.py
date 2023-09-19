@@ -55,6 +55,6 @@ class ChromaStore:
 
     @staticmethod
     def query(query: str, filters):
-        response = ChromaStore._query_engine(filters=filters).query(query=query)
+        response = ChromaStore._query_engine(filters=filters).query(query)
         return response
     

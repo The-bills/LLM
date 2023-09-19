@@ -1,6 +1,8 @@
 import jsonpickle
 from repo import Repo
 import services.rate as rate
+from services.ChromaStore import ChromaStore
+from llama_index.vector_stores.types import ExactMatchFilter
 
 from flask import Blueprint
 
@@ -16,4 +18,7 @@ def get_position(id):
 
 @api.route("/<id>/scores")
 def score_position(id):
-    return jsonpickle.encode(rate.rate_position(id))
+    position = Repo().Position.get_one(id)
+    ChromaStore(collection_name='cvtest')
+    res = ChromaStore.query(query=f"Find best candidate for this job and tell why. Job {position.name}: {position.description}", filters=[])
+    return jsonpickle.encode(res.response)
