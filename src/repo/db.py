@@ -19,7 +19,7 @@ class Db:
         return cls._instance
 
     @staticmethod
-    def query(sql: str, arguments: tuple | None = None):
+    def query(sql: str, arguments = None):
         cur = Db._instance.conn.cursor()
         cur.execute(sql, arguments) 
         return cur
