@@ -9,6 +9,7 @@ from dotenv import load_dotenv, find_dotenv
 _ = load_dotenv(find_dotenv())
 
 
+
 class ChromaStore:
     _instance = None
 
@@ -21,6 +22,8 @@ class ChromaStore:
             cls._instance.chroma_collection = cls._instance.chroma_client.get_or_create_collection(collection_name)
             cls._instance.vector_store = ChromaVectorStore(chroma_collection=cls._instance.chroma_collection)
             cls._instance.storage_context = StorageContext.from_defaults(vector_store=cls._instance.vector_store)
+
+            # cls._instance.chroma_collection.query()
 
             #Embedding
             cls._instance.embed_model = LangchainEmbedding(
@@ -36,7 +39,7 @@ class ChromaStore:
     # @staticmethod
     def insert_doc(path: str, metadata = {}):
         document = SimpleDirectoryReader(input_files=[path]).load_data()[0]
-        document.metadata = metadata
+        document.metadata = metadata | {"type": "cv"}
         ChromaStore._instance.index.insert(document)
         return document
 
@@ -45,15 +48,33 @@ class ChromaStore:
         ChromaStore._instance.chroma_collection.delete(
             ids=[doc_to_delete[ids_name][0]]
         )
-        
+
     @staticmethod
-    def _query_engine(filters): 
+    def _query_engine(filters, text_qa_template=None, refine_prompt_template=None): 
         engine_filters = MetadataFilters(filters=filters)
-        query_engine = ChromaStore._instance.index.as_query_engine(filters=engine_filters)
+        query_engine = ChromaStore._instance.index.as_query_engine(
+            filters=engine_filters, text_qa_template=text_qa_template,refine_prompt_template=refine_prompt_template
+            )
         return query_engine
 
     @staticmethod
-    def query(query: str, filters):
-        response = ChromaStore._query_engine(filters=filters).query(query)
+    def query(query: str, filters, text_qa_template=None, refine_prompt_template=None):
+        response = ChromaStore._query_engine(
+            filters=filters, text_qa_template=text_qa_template,refine_prompt_template=refine_prompt_template
+            ).query(query)
         return response
     
+    def _get_embeddings(id):
+       return ChromaStore._instance.chroma_collection.get(
+           ids=[id],
+           include=["embeddings"]
+
+       )
+
+    def query_collection(embeddings):
+        return ChromaStore._instance.chroma_collection.query(
+            query_embeddings=embeddings,
+            n_results=1,
+            include=["embeddings", "documents", "metadatas", "distances"],
+            where={"type": "cv"}
+        )
