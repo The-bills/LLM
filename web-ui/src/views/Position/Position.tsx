@@ -29,7 +29,7 @@ export const Position = () => {
             <h1 className='text-3xl font-bold'>{data?.name}</h1>
             <div className=''>Position</div>
             <div className='mb-4 mt-4'>{data?.description}</div>
-            <button onClick={handleClick} className='bg-slate-900 pt-2 pb-2 pl-3 pr-3 text-slate-100  font-semibold rounded'>Find canndidates</button>
+            <button onClick={handleClick} className='bg-slate-700 pt-2 pb-2 pl-3 pr-3 text-slate-100  font-semibold rounded'>Find canndidates</button>
             <div className='flex  flex-col items-stretch gap-4 pt-4'>
                 {mutation.isLoading &&
                     <div className='border rounded-md p-5'>

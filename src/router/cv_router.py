@@ -4,6 +4,7 @@ from flask import Blueprint, request
 from services.file_storage import FileStorage
 from utils.files import is_pdf
 from services.ChromaStore import ChromaStore
+from llama_index.vector_stores.types import ExactMatchFilter
 
 api = Blueprint('cv_api', __name__)
 
@@ -22,12 +23,11 @@ def upload_cv():
         return jsonpickle.encode({"error": "Invalid file type"})
 
     filelink = FileStorage.save(file)
-    # TODO add to chroma, get name and doc_id
-    # ChromaStore(collection_name='cvtest')
-    # ChromaStore.insert_doc(filelink, ['Krasucki'])
-    # print(res)
-    (name, doc_id) = (None, None)
-    cv = Repo.Cv.insert(name, filelink, request.form['category'], doc_id)
+    ChromaStore(collection_name='cv_test')
+    doc = ChromaStore.insert_doc(filelink)
+    name = ChromaStore.query("What is a name of this person? Returny ONLY full name", filters=[ExactMatchFilter(key="doc_id", value=doc.doc_id)]).response
+    print(name)
+    cv = Repo.Cv.insert(name, filelink, request.form['category'], doc.doc_id)
     return jsonpickle.encode(cv)
 
 @api.route("/<id>", methods=['DELETE'])

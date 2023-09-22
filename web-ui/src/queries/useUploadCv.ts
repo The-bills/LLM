@@ -12,7 +12,7 @@ export const useUploadCv = () => {
         return formData
     }
 
-    const mutation = useMutation<unknown, unknown, {file: Blob}>(({file}) => fetch(
+    const mutation = useMutation<any, unknown, {file: Blob}>(({file}) => fetch(
         `${BE_URL}/cv`,
         {
             method: 'POST',

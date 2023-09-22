@@ -34,12 +34,11 @@ class ChromaStore:
         return cls._instance
 
     # @staticmethod
-    def insert_doc(path: str, metadata_name: list): #Czy to lista ma być?
-        documents = SimpleDirectoryReader('FOLDER_PATH').load_data()
-        for (document, metadata_name) in zip(documents, metadata_name):
-            document.metadata = {"name": metadata_name}    
-            ChromaStore._instance.index.insert(document)
-        return ChromaStore._instance.index
+    def insert_doc(path: str, metadata = {}):
+        document = SimpleDirectoryReader(input_files=[path]).load_data()[0]
+        document.metadata = metadata
+        ChromaStore._instance.index.insert(document)
+        return document
 
     def delete_doc(ids_name: str):
         doc_to_delete = ChromaStore._instance.chroma_collection.get(limit=1)
