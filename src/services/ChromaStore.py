@@ -21,9 +21,8 @@ class ChromaStore:
     def query_collection(self, embeddings):
         return self.collection.query(
             query_embeddings=embeddings,
-            n_results=1,
+            n_results=5,
             include=["metadatas", "distances"],
             where={"type": "cv"}
         )
     
-    # def match()

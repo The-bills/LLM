@@ -18,10 +18,6 @@ def get_one(id):
     res = ChromaStore().collection.get(where={"doc_id": id}, include=['documents', 'metadatas'])
     return jsonpickle.encode(res, unpicklable=False)
 
-@api.route("/<id>", methods=['DELETE'])
-def delete(id):
-    return jsonpickle.encode(Repo.Cv.delete(id))
-
 @api.route("/", methods=['POST'])
 def insert():
     file = request.files['cv']
@@ -30,3 +26,10 @@ def insert():
 
     res = cv_resolver.insert_cv(file)
     return jsonpickle.encode(res.__dict__, unpicklable=False)
+
+
+@api.route("/<id>", methods=['DELETE'])
+def delete(id):
+    LlamaIndex().delete(id)
+    return jsonpickle.encode({"status": "ok"}, unpicklable=False)
+

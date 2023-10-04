@@ -39,7 +39,7 @@ class LlamaIndex:
         self.index.update_ref_doc(document)
     
     def delete(self, doc_id: str):
-        self.index.delete(doc_id)
+        self.index.delete_ref_doc(doc_id)
     
     def query(self, query: str, filters, text_qa_template=None, refine_prompt_template=None):
         response = self._query_engine(
