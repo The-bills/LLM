@@ -5,6 +5,7 @@ from langchain.output_parsers import StructuredOutputParser
 from llama_index.vector_stores.types import ExactMatchFilter
 from services.LlamaIndex import LlamaIndex
 from langchain.output_parsers import CommaSeparatedListOutputParser
+from utils.tiktoken import count_tokens
 
 def query_setup(response_schemas: list, doc):
     filters = [ExactMatchFilter(key="doc_id", value=doc.doc_id)]

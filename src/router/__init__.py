@@ -1,5 +1,5 @@
 from flask import Flask
-from router import cv_router, position_router
+from router import cv_router, position_router, tokens_router
 
 app = Flask("app")
 app.config['UPLOAD_FOLDER'] = 'uploads'
@@ -10,6 +10,7 @@ cors = CORS(app)
 
 app.register_blueprint(position_router.api, url_prefix='/positions')
 app.register_blueprint(cv_router.api, url_prefix='/cv')
+app.register_blueprint(tokens_router.api, url_prefix='/tokens')
 
 from flask import send_from_directory
 from os import path

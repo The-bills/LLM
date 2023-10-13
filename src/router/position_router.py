@@ -1,9 +1,12 @@
 import jsonpickle
+import json
 from services.ChromaStore import ChromaStore
 from flask import Blueprint, request
 from resolvers import position_resolver
 from services.LlamaIndex import LlamaIndex
 from utils.score_setup import setup_scoring
+from utils.tiktoken import count_tokens
+from utils.extract_from_dic import extract_name_from_dict
 from llama_index.vector_stores.types import ExactMatchFilter
 
 api = Blueprint('position_api', __name__)
@@ -45,7 +48,9 @@ def add_position():
 def match_position_to_cv(positionId):
     embedings = ChromaStore().collection.get(where={'doc_id': positionId}, include=['embeddings'])['embeddings'][0]
     res = ChromaStore().query_collection(embedings)
-    return jsonpickle.encode(res, unpicklable=False)
+    res_name = extract_name_from_dict(res)
+    return res_name
+    # return jsonpickle.encode(res, unpicklable=False)
     
 @api.route("/<positionId>/match2", methods=['GET'])
 def match_position_to_cv2(positionId):
