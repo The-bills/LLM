@@ -1,5 +1,4 @@
 import jsonpickle
-import json
 from services.ChromaStore import ChromaStore
 from flask import Blueprint, request
 from resolvers import position_resolver

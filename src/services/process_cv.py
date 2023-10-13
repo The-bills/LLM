@@ -5,7 +5,7 @@ from utils.score_setup import query_setup
 def process_cv(doc):
     metadata = assign_metadata(doc)
     score = assign_score(doc)
-    doc.metadata = {"type": "cv"} | metadata | score
+    doc.metadata = doc.metadata | metadata | score
     LlamaIndex().update(doc)
 
 def assign_metadata(doc):

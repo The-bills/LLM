@@ -1,18 +1,43 @@
-from uuid import UUID
+from services.LlamaIndex import ChromaStore
 
 class Cv:
-    id: UUID
+    id: str
     name: str
     filelink: str
-    category: str
-    doc_id: UUID
-    created_at: str
+    inserted_at: str
+    metadata: dict
 
-    def __init__(self, id, name, filelink, category, doc_id, created_at):
-        self.id = id
-        self.name = name
-        self.filelink = filelink
-        self.category = category
-        self.doc_id = doc_id
-        self.created_at = created_at.ctime()
+    @staticmethod
+    def from_chroma_format(raw, index = 0):
+        cv = Cv()
+        cv.metadata = raw['metadatas'][index]
+        cv.id = cv.metadata['doc_id']
+        del cv.metadata['_node_content']
+        cv.name = cv.metadata['name']
+        cv.filelink = cv.metadata['filelink']
+        cv.inserted_at = cv.metadata['inserted_at']
+        return cv
+
+    @staticmethod
+    def many_from_chroma_format(raw):
+        cvs = []
+        for index in range(len(raw['ids'])):
+            cvs.append(Cv.from_chroma_format(raw, index))
+        return cvs
     
+    @staticmethod
+    def get(id):
+        raw = ChromaStore().collection.get(
+            where={"doc_id": id},
+            include=['metadatas']
+        )
+        return Cv.from_chroma_format(raw)
+    
+    @staticmethod
+    def get_all():
+        raw = ChromaStore().collection.get(
+            where={"type": "cv"},
+            include=['metadatas']
+        )
+        return Cv.many_from_chroma_format(raw)
+        

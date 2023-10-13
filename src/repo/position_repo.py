@@ -1,5 +1,5 @@
 from repo.db import Db
-from models.Position import Position
+from models.position import Position
 from uuid import uuid4
 
 class PositionRepo:

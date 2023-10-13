@@ -6,13 +6,13 @@ import { useRef } from "react"
 export const FileDrop = () => {
     const navigate = useNavigate()
     const inputRef = useRef<HTMLInputElement>(null)
-    const { mutateAsync, data, isLoading} = useUploadCv()
+    const { mutateAsync } = useUploadCv()
 
     const handleUpload = async (value?: Blob) => {
         if(!value) return
         console.log(value)
         let res = await mutateAsync({file: value})
-        navigate(`/cv/${res?.id.hex}/edit`)
+        navigate(`/cv/${res?.id}`)
     }
 
     const handleDrop = (e: any) => {

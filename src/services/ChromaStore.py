@@ -10,7 +10,7 @@ from llama_index.schema import Document
 class ChromaStore:
     _instance = None
 
-    def __new__(cls, collection_name:str = 'default',path="FOLDER_PATH_CHROMA_DB"):
+    def __new__(cls, collection_name:str = 'default3',path="FOLDER_PATH_CHROMA_DB"):
         if cls._instance is None:
             cls._instance = super().__new__(cls)
 
