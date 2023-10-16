@@ -6,6 +6,8 @@ from llama_index.vector_stores.types import ExactMatchFilter
 from services.LlamaIndex import LlamaIndex
 from langchain.output_parsers import CommaSeparatedListOutputParser
 from utils.tiktoken import count_tokens
+from langchain.schema import BaseOutputParser
+from typing import List
 
 def query_setup(response_schemas: list, doc):
     filters = [ExactMatchFilter(key="doc_id", value=doc.doc_id)]
@@ -21,3 +23,23 @@ def setup_scoring(query, filters, lc_output_parser=CommaSeparatedListOutputParse
     refine_prompt = PromptTemplate(fmt_refine_tmpl, output_parser=output_parser)
     res = LlamaIndex().query(query, filters=filters, text_qa_template=qa_prompt, refine_prompt_template=refine_prompt).response
     return output_parser.parse(res)
+
+# class StructuredListOutputParser(StructuredOutputParser):
+#     @property
+#     def lc_serializable(self) -> bool:
+#         return True
+
+#     def get_format_instructions(self) -> str:
+#         return (f"""
+#             Your response should be a list of comma separated values.
+#             Instuctions for each value:
+#             `{super().get_format_instructions()}`
+#             """)
+
+#     def parse(self, text: str) -> List[str]:
+#         """Parse the output of an LLM call."""
+#         return text.strip().split(", ")
+
+#     @property
+#     def _type(self) -> str:
+#         return "comma-separated-list"

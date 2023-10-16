@@ -10,12 +10,17 @@ from services.LlamaIndex import LlamaIndex
 api = Blueprint('tokens_api', __name__)
 
 
-@api.route("/tokens", methods=['GET'])
+@api.route("/embedding", methods=['GET'])
 def count_tokens():
     tokens = LlamaIndex().count_tokens_all() 
     return jsonpickle.encode(tokens, unpicklable=False)
 
-@api.route("/tokens", methods=["POST"])
-def reset_tokens():
-    tokens = LlamaIndex().reset_tokens()
+@api.route("/llm", methods=['GET'])
+def count_tokens_llm():
+    tokens = LlamaIndex().count_tokens_all_prompt() 
     return jsonpickle.encode(tokens, unpicklable=False)
+
+@api.route("/", methods=["DELETE"])
+def reset_tokens():
+    LlamaIndex().reset_tokens()
+    return jsonpickle.encode({"status": "ok"}, unpicklable=False)

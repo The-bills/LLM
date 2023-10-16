@@ -1,8 +1,7 @@
-export type Cv = {
+export type Position = {
     id: string
     name: string
-    filelink: string
+    description: string
     inserted_at: string
     metadata: {[key: string]: string}
-
 }

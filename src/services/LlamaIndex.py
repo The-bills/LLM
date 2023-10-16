@@ -74,8 +74,7 @@ class LlamaIndex:
         return prompt_tokens
     
     def reset_tokens(self):
-        prompt_tokens = self.token_counter.reset_counts()
-        return prompt_tokens        
+        self.token_counter.reset_counts()
 
     @staticmethod
     def count_tokens_prompt(prompt, encoding_name="cl100k_base"):
