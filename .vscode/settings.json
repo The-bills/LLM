@@ -1,11 +1,13 @@
 {
     "python.analysis.extraPaths": [
-        "./src/utilis"
+        "./src/utilis",
+        "./tests/test"
     ],
     "python.testing.pytestArgs": [
-        "src"
+        "tests"
     ],
     "python.testing.unittestEnabled": false,
     "python.testing.pytestEnabled": true,
-    "python.analysis.typeCheckingMode": "off"
+    "python.testing.autoTestDiscoverOnSaveEnabled": true,
+    "python.analysis.typeCheckingMode": "off",
 }

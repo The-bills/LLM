@@ -77,6 +77,6 @@ def match_position_to_cv2(positionId):
     ```
     """
     filters = [ExactMatchFilter(key="type", value="cv")]
-    res = setup_scoring(query_string, filters, ScoreOutputParser())
+    res = setup_scoring(query_string, filters)
     return jsonpickle.encode(res, unpicklable=False)
 
