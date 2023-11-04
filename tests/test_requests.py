@@ -1,11 +1,9 @@
 import requests
 import os
-import json
-import pytest
+from tests.conftest import *
 # from pytest
 from .utils.positions import *
 from .utils.utils import *
-
 from dotenv import load_dotenv, find_dotenv
 load_dotenv(find_dotenv())
 
@@ -88,7 +86,7 @@ def test_tokens_llm_usage(get_url_tokens_adress: str | None):
     assert response.status_code == 200
     assert int(response.text) > 0
 
-def test_delate_cvs(get_folder_path: str | None, get_url_cv_adress: str | None):
+def test_delete_cvs(get_folder_path: str | None, get_url_cv_adress: str | None):
     folder_path = get_folder_path
     for name in get_filenames(folder_path):
         id = get_one_cv(name)
@@ -106,7 +104,7 @@ def test_delate_cvs(get_folder_path: str | None, get_url_cv_adress: str | None):
         assert response_data.get("filelink") is None
         assert response_data.get("inserted_at") is None
 
-def test_delate_positions(get_url_position_adress: str | None):
+def test_delete_positions(get_url_position_adress: str | None):
     for positions_name in positions:
         id = get_one_position(positions_name)
         url = get_url_position_adress + str(id)

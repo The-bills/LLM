@@ -33,22 +33,3 @@ def get_filenames(folder_path):
         filenames.append(os.path.splitext(file)[0])
     return filenames
     
-@pytest.fixture
-def get_folder_path():
-    folder_path = os.getenv('TEST_FOLDER_PATH')
-    return folder_path
-
-@pytest.fixture
-def get_url_cv_adress():
-    url = os.getenv('CV_URL')
-    return url
-
-@pytest.fixture
-def get_url_position_adress():
-    url = os.getenv('POSITION_URL')
-    return url
-
-@pytest.fixture
-def get_url_tokens_adress():
-    url = os.getenv('TOKENS_URL')
-    return url
